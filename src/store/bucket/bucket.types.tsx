@@ -1,0 +1,27 @@
+export enum BUCKET_ACTION_TYPES {
+    FETCH_CARDS_START = "FETCH_CARDS_START",
+    FETCH_CARDS_SUCCESS = "FETCH_CARDS_SUCCESS",
+    FETCH_CARDS_FAILURE = "FETCH_CARDS_FAILURE",
+    ADD_CARD_START = "ADD_CARD_START",
+    ADD_CARD_SUCCESS = "ADD_CARD_SUCCESS",
+    ADD_CARD_FAILURE = "ADD_CARD_FAILURE",
+    DELETE_CARD_START = "DELETE_CARD_START",
+    DELETE_CARD_SUCCESS = "DELETE_CARD_SUCCESS",
+    DELETE_CARD_FAILURE = "DELETE_CARD_FAILURE",
+    UPDATE_CARD_START = "UPDATE_CARD_START",
+    UPDATE_CARD_SUCCESS = "UPDATE_CARD_SUCCESS",
+    UPDATE_CARD_FAILURE = "UPDATE_CARD_FAILURE",
+}
+
+export type CardItem = {
+    id: number,
+    bucket: string,
+    card_name: string, 
+    link: string
+}
+
+export type Bucket = {
+    id: number,
+    bucket_name: string,
+    cards: CardItem[]
+}
