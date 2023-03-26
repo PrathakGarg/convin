@@ -8,8 +8,3 @@ export const selectBuckets = createSelector(
     [selectBucket],
     (bucket) => bucket.buckets
 );
-
-export const selectBucketNames = createSelector(
-    [selectBucket],
-    (bucket) => bucket.bucket_names
-);

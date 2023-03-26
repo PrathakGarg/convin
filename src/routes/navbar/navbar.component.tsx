@@ -16,13 +16,14 @@ const Navbar: React.FC = () => {
     const items: MenuProps['items'] = useSelector(selectBuckets).map((bucket, index) => ({
         key: String(bucket.id),
         icon: React.createElement(RightCircleFilled),
-        label: `nav ${bucket.bucket_name}`,
+        label: `nav ${bucket.bucket_name}`
     }));
-    
+
     return (
         <Layout hasSider>
             <SiderStyled>
                 <LogoContainer/>
+                
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
             </SiderStyled>
             <Layout className="site-layout" style={{ marginLeft: 200, minHeight: "98vh" }}>
