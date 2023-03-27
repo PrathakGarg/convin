@@ -6,6 +6,7 @@ import { useDrag } from "react-dnd";
 
 import AddCardModal from "../add-card-modal/add-card-modal.categories";
 import EditCardModal from "../edit-card-modal/edit-card-modal.component";
+import IframeModal from "../iframe-modal/iframe-modal.component";
 
 import { CardItem } from "../../store/bucket/bucket.types";
 import { selectBuckets } from "../../store/bucket/bucket.selector";
@@ -32,6 +33,7 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
     const dispatch = useDispatch();
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isIframeModalOpen, setIsIframeModalOpen] = useState(false);
     const buckets = useSelector(selectBuckets);
 
     const onClickAdd = () => {setIsAddModalOpen(true);}
@@ -41,6 +43,12 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
     const onClickEdit = () => {setIsEditModalOpen(true);}
     const handleEditOk = () => {setIsEditModalOpen(false);}
     const handleEditCancel = () => {setIsEditModalOpen(false);}
+
+    const onClickDelete = (card: CardItem) => {dispatch(deleteCardFromBucket(buckets, bucketId, card.id))}
+
+    const onClickPlay = () => {setIsIframeModalOpen(true);}
+    const handlePlayOk = () => {setIsIframeModalOpen(false);}
+    const handlePlayCancel = () => {setIsIframeModalOpen(false);}
 
     if (!card) {
         return (
@@ -81,9 +89,9 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
             hoverable
             style={{ width: 300, border: "1px solid #ddd", opacity: isDragging ? 0.5 : 1 }}
             actions={[
-                <PlayCircleOutlined key="play" />,
+                <PlayCircleOutlined key="play" onClick={onClickPlay} />,
                 <EditOutlined key="edit" onClick={onClickEdit} />,
-                <DeleteOutlined key="delete" onClick={() => {dispatch(deleteCardFromBucket(buckets, bucketId, card.id))}} />,
+                <DeleteOutlined key="delete" onClick={() => onClickDelete(card)} />,
             ]}
         >
             <Meta title={card_name} description={link} />
@@ -95,6 +103,13 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
             isModalOpen={isEditModalOpen}
             handleOk={handleEditOk}
             handleCancel={handleEditCancel}
+        />
+        <IframeModal
+            isModalOpen={isIframeModalOpen}
+            handleOk={handlePlayOk}
+            handleCancel={handlePlayCancel}
+            link={link}
+            title={card_name}
         />
         </>
     )

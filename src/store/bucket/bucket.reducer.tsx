@@ -1,7 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
 
 import { Bucket } from "./bucket.types";
-
 import { updateBuckets } from "./bucket.action";
 
 export type BucketState = {

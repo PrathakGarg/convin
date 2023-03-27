@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Form, Select, Input, Button, Typography } from "antd";
+import { Modal, Form, Input, Button, Typography } from "antd";
 
 import { Bucket, CardItem } from "../../store/bucket/bucket.types";
 import { editCard } from "../../store/bucket/bucket.action";

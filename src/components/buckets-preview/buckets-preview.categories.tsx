@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -10,10 +10,11 @@ const BucketsPreview: FC = () => {
     const { bucketId } = useParams();
 
     const bucket = useSelector(selectBucketById(Number(bucketId)));
-
-    if (!bucket) {
-        navigate("/bucket/");
-    }
+    
+    useEffect(() => {
+        if (!bucket) 
+            navigate('/bucket');
+    }, [bucket, navigate]);
 
     return (
         <div className="site-layout-background" style={{ padding: 0, minHeight: 380 }}>
