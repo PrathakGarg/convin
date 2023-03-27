@@ -11,9 +11,7 @@ export const SiderStyled = styled(Sider)`
     top: 0px;
     bottom: 0px;
     flex: 0 0 200px;
-    max-width: 200px;
-    min-width: 200px;
-    width: 200px;
+    min-width: 250px;
 `
 
 export const LogoContainer = styled.div`

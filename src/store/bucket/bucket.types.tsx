@@ -5,7 +5,7 @@ export enum BUCKET_ACTION_TYPES {
 
 export type CardItem = {
     id: number,
-    bucket: string,
+    bucketId: number,
     card_name: string, 
     link: string
 }
