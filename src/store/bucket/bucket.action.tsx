@@ -14,6 +14,27 @@ const addNewBucket = (bucketList: Bucket[], bucketName: string): Bucket[] => {
     return [...bucketList, newBucket];
 }
 
+const editBucketFields = (bucketList: Bucket[], bucketId: number, bucketName: string): Bucket[] => {
+    const bucketIndex = bucketList.findIndex(bucket => bucket.id === bucketId);
+    const bucket = bucketList[bucketIndex];
+
+    const newBucketList = [...bucketList];
+    newBucketList[bucketIndex] = {
+        ...bucket,
+        bucket_name: bucketName
+    }
+
+    return newBucketList;
+}
+
+const deleteBucket = (bucketList: Bucket[], bucketId: number): Bucket[] => {
+    const bucketIndex = bucketList.findIndex(bucket => bucket.id === bucketId);
+    const newBucketList = [...bucketList];
+    newBucketList.splice(bucketIndex, 1);
+
+    return newBucketList;
+}
+
 const addNewCard = (bucketList: Bucket[], bucketId: number, cardName: string, link: string): Bucket[] => {
     const bucketIndex = bucketList.findIndex(bucket => bucket.id === bucketId);
     const bucket = bucketList[bucketIndex];
@@ -114,6 +135,16 @@ export const addBucket = (bucketList: Bucket[], bucketName: string) => {
     return updateBuckets(newBucketList);
 }
 
+export const editBucket = (bucketList: Bucket[], bucketId: number, bucketName: string) => {
+    const newBucketList = editBucketFields(bucketList, bucketId, bucketName);
+    return updateBuckets(newBucketList);
+}
+
+export const deleteBucketFromList = (bucketList: Bucket[], bucketId: number) => {
+    const newBucketList = deleteBucket(bucketList, bucketId);
+    return updateBuckets(newBucketList);
+}
+
 export const addCardToBucket = (bucketList: Bucket[], bucketId: number, cardName: string, link: string) => {
     const newBucketList = addNewCard(bucketList, bucketId, cardName, link);
     return updateBuckets(newBucketList);
@@ -129,7 +160,7 @@ export const deleteCardFromBucket = (bucketList: Bucket[], bucketId: number, car
     return updateBuckets(newBucketList);
 }
 
-export const moveCard = (getBuckets: () => Bucket[], bucketId: number, cardId: number, newBucketId: number) => {
+export const moveCard = (bucketId: number, cardId: number, newBucketId: number) => {
     return (dispatch: any, getState: any) => {
         const { bucket } = getState();
         const { buckets } = bucket;

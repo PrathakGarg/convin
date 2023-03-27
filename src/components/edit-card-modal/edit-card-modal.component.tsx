@@ -21,8 +21,6 @@ export type FormValues = {
     link: string;
 }
 
-const { Option } = Select;
-
 const EditCardModal: FC<EditCardModalProps> = ({ buckets, bucketId, cardId, isModalOpen, handleOk, handleCancel }) => {
     const dispatch = useDispatch();
     const card = useSelector(selectCardById(bucketId, cardId)) as CardItem;

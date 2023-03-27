@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { useDrag } from "react-dnd";
 
 import AddCardModal from "../add-card-modal/add-card-modal.categories";
@@ -81,6 +81,7 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
             hoverable
             style={{ width: 300, border: "1px solid #ddd", opacity: isDragging ? 0.5 : 1 }}
             actions={[
+                <PlayCircleOutlined key="play" />,
                 <EditOutlined key="edit" onClick={onClickEdit} />,
                 <DeleteOutlined key="delete" onClick={() => {dispatch(deleteCardFromBucket(buckets, bucketId, card.id))}} />,
             ]}

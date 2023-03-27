@@ -11,11 +11,18 @@ export const SiderStyled = styled(Sider)`
     top: 0px;
     bottom: 0px;
     flex: 0 0 200px;
-    min-width: 250px;
+    width: 250px !important;
+    max-width: 250px !important;
 `
 
 export const LogoContainer = styled.div`
     height: 32px;
     margin: 16px;
     background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    line-height: 32px;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
 `
