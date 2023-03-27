@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Layout } from "antd";
 
-const { Sider, Footer } = Layout;
+const { Sider } = Layout;
 
 export const SiderStyled = styled(Sider)`
     position: fixed !important;
@@ -13,6 +13,11 @@ export const SiderStyled = styled(Sider)`
     flex: 0 0 200px;
     width: 250px !important;
     max-width: 250px !important;
+
+    .history {
+        position: absolute;
+        bottom: 10px;
+    }
 `
 
 export const LogoContainer = styled.div`

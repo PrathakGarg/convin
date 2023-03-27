@@ -11,6 +11,8 @@ import IframeModal from "../iframe-modal/iframe-modal.component";
 import { CardItem } from "../../store/bucket/bucket.types";
 import { selectBuckets } from "../../store/bucket/bucket.selector";
 import { deleteCardFromBucket } from "../../store/bucket/bucket.action";
+import { addCardToHistory } from "../../store/history/history.action";
+import { selectHistoryItems } from "../../store/history/history.selector";
 
 const { Meta } = Card;
 
@@ -35,6 +37,7 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isIframeModalOpen, setIsIframeModalOpen] = useState(false);
     const buckets = useSelector(selectBuckets);
+    const history = useSelector(selectHistoryItems);
 
     const onClickAdd = () => {setIsAddModalOpen(true);}
     const handleAddOk = () => {setIsAddModalOpen(false);}
@@ -44,9 +47,12 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
     const handleEditOk = () => {setIsEditModalOpen(false);}
     const handleEditCancel = () => {setIsEditModalOpen(false);}
 
-    const onClickDelete = (card: CardItem) => {dispatch(deleteCardFromBucket(buckets, bucketId, card.id))}
+    const onClickDelete = (card: CardItem) => {dispatch(deleteCardFromBucket(buckets, card.bucketId, card.id))}
 
-    const onClickPlay = () => {setIsIframeModalOpen(true);}
+    const onClickPlay = (card: CardItem) => {
+        dispatch(addCardToHistory(history, card.bucketId, card.id, card.card_name, card.link));
+        setIsIframeModalOpen(true);
+    }
     const handlePlayOk = () => {setIsIframeModalOpen(false);}
     const handlePlayCancel = () => {setIsIframeModalOpen(false);}
 
@@ -87,9 +93,9 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
         <Card
             ref={drag}
             hoverable
-            style={{ width: 300, border: "1px solid #ddd", opacity: isDragging ? 0.5 : 1 }}
+            style={{ width: 300, border: "1px solid #ccc", opacity: isDragging ? 0.5 : 1 }}
             actions={[
-                <PlayCircleOutlined key="play" onClick={onClickPlay} />,
+                <PlayCircleOutlined key="play" onClick={() => onClickPlay(card)} />,
                 <EditOutlined key="edit" onClick={onClickEdit} />,
                 <DeleteOutlined key="delete" onClick={() => onClickDelete(card)} />,
             ]}
@@ -98,7 +104,7 @@ const CardI: FC<CardProps> = ({ bucketId, card }) => {
         </Card>
         <EditCardModal
             buckets={buckets}
-            bucketId={bucketId}
+            bucketId={card.bucketId}
             cardId={card.id}
             isModalOpen={isEditModalOpen}
             handleOk={handleEditOk}
