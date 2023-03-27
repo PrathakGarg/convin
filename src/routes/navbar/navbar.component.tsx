@@ -10,13 +10,14 @@ import { Layout, Menu } from 'antd';
 import { CardDragItem } from '../../components/card/card.component';
 import { selectBuckets } from '../../store/bucket/bucket.selector';
 import { addBucket, moveCard } from '../../store/bucket/bucket.action';
+import { AppDispatch } from '../../store/store';
 
 import { SiderStyled, LogoContainer } from './navbar.styles';
 
 const { Footer } = Layout;
 
 const Navbar: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
     const buckets = useSelector(selectBuckets);
 
