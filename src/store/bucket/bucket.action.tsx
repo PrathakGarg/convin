@@ -1,5 +1,5 @@
 import { Bucket, BUCKET_ACTION_TYPES, CardItem } from "./bucket.types";
-import { createAction, withMatcher, ActionWithPayload, Action } from "../../utils/reducer/reducer.utils";
+import { createAction, withMatcher, ActionWithPayload } from "../../utils/reducer/reducer.utils";
 
 type UpdateBuckets = ActionWithPayload<BUCKET_ACTION_TYPES.UPDATE_BUCKETS, Bucket[]>;
 
@@ -48,7 +48,7 @@ const editCardFields = (bucketList: Bucket[], bucketId: number, cardId: number, 
             {
                 ...card,
                 card_name: cardName,
-                link
+                link: link
             },
             ...bucket.cards.slice(cardIndex + 1)
         ]
@@ -68,6 +68,39 @@ const deleteCard = (bucketList: Bucket[], bucketId: number, cardId: number): Buc
         cards: [
             ...bucket.cards.slice(0, cardIndex),
             ...bucket.cards.slice(cardIndex + 1)
+        ]
+    }
+
+    return newBucketList;
+}
+
+const moveCardtoBucket = (bucketList: Bucket[], bucketId: number, cardId: number, newBucketId: number): Bucket[] => {
+    const bucketIndex = bucketList.findIndex(bucket => bucket.id === bucketId);
+    const bucket = bucketList[bucketIndex];
+    const cardIndex = bucket.cards.findIndex(card => card.id === cardId);
+    const card = bucket.cards[cardIndex];
+
+    const newBucketIndex = bucketList.findIndex(bucket => bucket.id === newBucketId);
+    const newBucket = bucketList[newBucketIndex];
+    const last_id = newBucket.cards.length ? newBucket.cards[newBucket.cards.length - 1].id : 0;
+
+    const newBucketList = [...bucketList];
+    newBucketList[bucketIndex] = {
+        ...bucket,
+        cards: [
+            ...bucket.cards.slice(0, cardIndex),
+            ...bucket.cards.slice(cardIndex + 1)
+        ]
+    }
+    newBucketList[newBucketIndex] = {
+        ...newBucket,
+        cards: [
+            ...newBucket.cards,
+            {
+                ...card,
+                id: last_id + 1,
+                bucketId: newBucketId
+            }
         ]
     }
 
@@ -94,4 +127,15 @@ export const editCard = (bucketList: Bucket[], bucketId: number, cardId: number,
 export const deleteCardFromBucket = (bucketList: Bucket[], bucketId: number, cardId: number) => {
     const newBucketList = deleteCard(bucketList, bucketId, cardId);
     return updateBuckets(newBucketList);
+}
+
+export const moveCard = (getBuckets: () => Bucket[], bucketId: number, cardId: number, newBucketId: number) => {
+    return (dispatch: any, getState: any) => {
+        const { bucket } = getState();
+        const { buckets } = bucket;
+        console.log("moveCard", buckets, bucketId, cardId, newBucketId);
+        const newBucketList = moveCardtoBucket(buckets, bucketId, cardId, newBucketId);
+
+        dispatch(updateBuckets(newBucketList));
+    }
 }

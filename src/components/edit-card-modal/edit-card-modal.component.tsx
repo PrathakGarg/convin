@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Form, Select, Input, Button } from "antd";
+import { Modal, Form, Select, Input, Button, Typography } from "antd";
 
 import { Bucket, CardItem } from "../../store/bucket/bucket.types";
 import { editCard } from "../../store/bucket/bucket.action";
-import { selectCardById } from "../../store/bucket/bucket.selector";
+import { selectBucketById, selectCardById } from "../../store/bucket/bucket.selector";
 
 type EditCardModalProps = {
     buckets: Bucket[]
@@ -45,12 +45,8 @@ const EditCardModal: FC<EditCardModalProps> = ({ buckets, bucketId, cardId, isMo
     return (
         <Modal title="Add new card" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[null]}>
             <Form {...layout} form={form} onFinish={onFinish} initialValues={{ bucket: bucketId, card_name: card.card_name, link: card.link }}>
-                <Form.Item name="bucket" label="Bucket" rules={[{ required: true }]}>
-                    <Select placeholder="Select a bucket" allowClear>
-                        {buckets.map((bucket, index) => (
-                            <Option key={index} value={bucket.id}>{bucket.bucket_name}</Option>
-                        ))}
-                    </Select>
+                <Form.Item name={["bucket"]} label="Bucket" style={{position: "relative", top: 5}}>
+                    <Typography.Text onClick={() => {alert("To change bucket, drag and drop card into a bucket on the sidebar")}}>{useSelector(selectBucketById(bucketId))?.bucket_name}</Typography.Text>
                 </Form.Item>
                 <Form.Item name="card_name" label="Card Name" rules={[{ required: true }]}>
                     <Input />

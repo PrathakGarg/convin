@@ -1,13 +1,15 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
 import { RightCircleFilled, PlusCircleOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 
+import { CardDragItem } from '../../components/card/card.component';
 import { selectBuckets } from '../../store/bucket/bucket.selector';
-import { addBucket } from '../../store/bucket/bucket.action';
+import { addBucket, moveCard } from '../../store/bucket/bucket.action';
 
 import { SiderStyled, LogoContainer } from './navbar.styles';
 
@@ -19,18 +21,37 @@ const Navbar: React.FC = () => {
     const buckets = useSelector(selectBuckets);
 
     const onAddBucket = () => {dispatch(addBucket(buckets, "New Bucket"))}
+    const getBuckets = () => buckets;
 
-    const items: MenuProps['items'] = buckets.map((bucket, index) => ({
+    const items: MenuProps['items'] = buckets.map((bucket, index) => {
+        const [_, drop] = useDrop(() => ({
+            accept: 'card',
+            drop: (item: CardDragItem) => {dispatch(moveCard(getBuckets, item.card.bucketId, item.card.id, bucket.id))},
+            collect: (monitor) => ({
+                isOver: !!monitor.isOver(),
+            }),
+        }));
+
+        return {
         key: String(bucket.id),
         icon: React.createElement(RightCircleFilled),
-        label: `${bucket.bucket_name}`,
+        label: (
+            <div ref={drop}>
+                <span>{bucket.bucket_name}</span>
+            </div>
+            ),
         onClick: () => navigate(`/bucket/${bucket.id}`),
-    }));
+    }
+});
 
     const addItem: MenuProps['items'] = [{
         key: 'add',
         icon: React.createElement(PlusCircleOutlined),
-        label: 'Add Bucket',
+        label: (
+            <div>
+                <span>Add Bucket</span>
+            </div>
+        ),
         onClick: onAddBucket,
     }]
 
