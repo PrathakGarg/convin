@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={[]} items={items} selectable={false} />
                 <Menu className="history" theme="dark" mode="inline" defaultSelectedKeys={[]} items={historyItem} selectable={false} />
             </SiderStyled>
-            <Layout className="site-layout" style={{ marginLeft: 250, minHeight: "98vh" }}>
+            <Layout className="site-layout" style={{ marginLeft: 250, height: "67em" }}>
                 <Header className='header' style={{backgroundColor: '#F5F5F5', width: "100%", height: "10%"}}>
                     <div className="logo" style={{width: "100%", height: "100%"}}>
                         <img src={Logo} alt="logo" style={{width: "100%", height: "100%", paddingTop: 20}} />

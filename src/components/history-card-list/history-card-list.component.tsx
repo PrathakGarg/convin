@@ -14,7 +14,7 @@ const HistoryCardList: FC = () => {
     return (
         <CardListContainer>
             {history.map((historyItem: HistoryItem) => (
-                <HistoryCard historyItem={historyItem} />
+                <HistoryCard historyItem={historyItem} key={historyItem.id} />
             ))}
         </CardListContainer>
     )

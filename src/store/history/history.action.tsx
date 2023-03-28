@@ -5,14 +5,14 @@ type UpdateHistory = ActionWithPayload<HISTORY_ACTION_TYPES.UPDATE_HISTORY, Hist
 type DeleteHistory = Action<HISTORY_ACTION_TYPES.DELETE_HISTORY>;
 
 const addHistory = (historyList: HistoryItem[], bucketId: number, cardId: number, cardName: string, link: string): HistoryItem[] => {
-    const card = historyList.find((item) => item.cardId === cardId);
+    const card = historyList.find((item) => (item.cardId === cardId) && (item.bucketId === bucketId));
 
     if (card) {
         const newHistoryList = historyList.filter((item) => item.cardId !== cardId);
         return addHistory(newHistoryList, bucketId, cardId, cardName, link);
     }
     
-    const last_id = historyList.length ? historyList[historyList.length - 1].id : 0;
+    const last_id = historyList.length ? historyList[0].id : 0;
     const newHistory: HistoryItem = {
         id: last_id + 1,
         bucketId,
@@ -22,7 +22,7 @@ const addHistory = (historyList: HistoryItem[], bucketId: number, cardId: number
         date: new Date().toDateString()
     }
 
-    return [...historyList, newHistory];
+    return [newHistory, ...historyList];
 }
 
 export const updateHistoryAction = withMatcher((historyList: HistoryItem[]): UpdateHistory => createAction(HISTORY_ACTION_TYPES.UPDATE_HISTORY, historyList));

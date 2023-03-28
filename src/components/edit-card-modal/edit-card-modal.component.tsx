@@ -41,7 +41,7 @@ const EditCardModal: FC<EditCardModalProps> = ({ buckets, bucketId, cardId, isMo
     };
 
     return (
-        <Modal title="Add new card" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[null]}>
+        <Modal title="Add new card" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={[<p style={{textAlign: "center"}}><span style={{color: "red"}}>!</span> Drag and Drop card onto another category to change category</p>]}>
             <Form {...layout} form={form} onFinish={onFinish} initialValues={{ bucket: bucketId, card_name: card.card_name, link: card.link }}>
                 <Form.Item name={["bucket"]} label="Bucket" style={{position: "relative", top: 5}}>
                     <Typography.Text onClick={() => {alert("To change bucket, drag and drop card into a bucket on the sidebar")}}>{useSelector(selectBucketById(bucketId))?.bucket_name}</Typography.Text>
